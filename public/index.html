@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebLate + Argos translate</title>
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    const socket = io();
+
+    socket.on('connect', console.log)
+
+    socket.on('message', ({ date: serverDate }) => socket.send({ serverDate, clienteDate: Date.now() }))
+
+    socket.on('disconnect', console.log)
+  </script>
+</body>
+
+</html>
