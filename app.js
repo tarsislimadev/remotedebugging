@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const readline = require('readline');
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
@@ -20,9 +22,19 @@ const createWebSocket = async () => {
   return ws
 }
 
-const ws = await createWebSocket()
+const state = { counter: 0, ws: null };
 
-const page_navigate_menu = async () => { }
+createWebSocket().then((ws) => state.ws = ws);
+
+const getCounter = () => ++state.counter
+
+const createFileName = (method) => `./requests/${method.replace('.', '_')}_${Date.now().toFixed(0)}.json`;
+
+const page_navigate_menu = async () => {
+  const answer = await question(['Enter URL to navigate to:'].join('\n'));
+  const method = 'Page.navigate';
+  fs.writeFileSync(createFileName(method), JSON.stringify({ method, params: { url: answer } }));
+}
 
 const page_reload_menu = async () => { }
 
@@ -56,6 +68,11 @@ const emulation_setdevicemetricsoverride_menu = async () => { }
 
 const emulation_setgeolocationoverride_menu = async () => { }
 
+const run_file = async (index) => {
+  const text = fs.readFileSync(`./requests/${fs.readdirSync('./requests')[index]}`, 'utf-8')
+  const json_data = JSON.parse(text)
+  state.ws.send(JSON.stringify({ id: getCounter(), ...json_data }))
+}
 
 const main_menu = async () => {
   const answer = await question([
@@ -78,6 +95,7 @@ const main_menu = async () => {
     '16. Emulation.setDeviceMetricsOverride',
     '17. Emulation.setGeolocationOverride',
     '18. Exit',
+    fs.readdirSync('./requests').map((file, ix) => `${ix + 18 + 1}. ${file}`).join('\n')
   ].join('\n'))
 
   switch (answer) {
@@ -99,7 +117,7 @@ const main_menu = async () => {
     case '16': return emulation_setdevicemetricsoverride_menu()
     case '17': return emulation_setgeolocationoverride_menu()
     case '18': return rl.close()
-    default: return console.log('Invalid option')
+    default: return run_file(+answer - 18 - 1)
   }
   return answer
 }
