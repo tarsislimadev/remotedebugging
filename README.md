@@ -8,16 +8,10 @@ Translate using Chromium Remote Debugging and Argos AI model
 npx @puppeteer/browsers install chrome@stable
 ```
 
-## Go to Chrome path
-
-```bash
-cd .\chrome\win64-145.0.7632.76\chrome-win64\
-```
-
 ## Run Chromium Remote Debugging
 
 ```bash
-.\chrome.exe --remote-debugging-port=9222
+.\chrome\win64-145.0.7632.76\chrome-win64\chrome.exe --remote-debugging-port=9222
 ```
 
 ## Get WebSocket Debugger Url
