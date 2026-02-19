@@ -31,3 +31,7 @@ curl "http://localhost:9222/json" | jq '.[].webSocketDebuggerUrl'
 ```bash
 npx wsc "ws://localhost:9222/devtools/page/FCE111F111BEFF1111CFADD11A1E1111"
 ```
+
+## How it works
+
+The app show available methods. The user chooses methods and fill params for saving JSON files with data. The user may choose JSON file for requesting current WebScoket connection.
