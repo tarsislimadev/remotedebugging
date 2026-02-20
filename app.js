@@ -1,6 +1,10 @@
 const fs = require('fs');
 
+const path = require('path');
+
 const readline = require('readline');
+
+const requests = []
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
@@ -12,12 +16,16 @@ const getWebSocketURL = async () => {
   return json.find((item) => item.url === 'chrome://newtab/')?.webSocketDebuggerUrl
 }
 
+const createFilename = (name) => path.join('.', 'responses', `${name}.${Date.now().toFixed(0)}.json`)
+
+const saveJsonResponse = (name, data = {}) => fs.writeFileSync(createFilename(name), JSON.stringify(data))
+
 const createWebSocket = async () => {
   const url = await getWebSocketURL()
   const ws = new WebSocket(url)
   ws.addEventListener('open', () => console.log('WebSocket connection opened'))
-  ws.addEventListener('message', (event) => console.log('Received message:', event.data))
-  ws.addEventListener('close', () => console.log('WebSocket connection closed'))
+  ws.addEventListener('message', (event) => saveJsonResponse('response', JSON.parse(event.data)))
+  ws.addEventListener('close', () => rl.close())
   ws.addEventListener('error', (error) => console.error('WebSocket error:', error))
   return ws
 }
@@ -28,12 +36,9 @@ createWebSocket().then((ws) => state.ws = ws);
 
 const getCounter = () => ++state.counter
 
-const createFileName = (method) => `./requests/${method.replace('.', '_')}_${Date.now().toFixed(0)}.json`;
-
 const page_navigate_menu = async () => {
   const answer = await question(['Enter URL to navigate to:'].join('\n'));
-  const method = 'Page.navigate';
-  fs.writeFileSync(createFileName(method), JSON.stringify({ method, params: { url: answer } }));
+  requests.push({ method: 'Page.navigate', params: { url: answer } });
 }
 
 const page_reload_menu = async () => { }
@@ -68,10 +73,10 @@ const emulation_setdevicemetricsoverride_menu = async () => { }
 
 const emulation_setgeolocationoverride_menu = async () => { }
 
-const run_file = async (index) => {
-  const text = fs.readFileSync(`./requests/${fs.readdirSync('./requests')[index]}`, 'utf-8')
-  const json_data = JSON.parse(text)
-  state.ws.send(JSON.stringify({ id: getCounter(), ...json_data }))
+const run_request = async (index) => {
+  const req = requests[index]
+  console.log('run request ', index, req)
+  state.ws.send(JSON.stringify({ id: getCounter(), ...req }))
 }
 
 const main_menu = async () => {
@@ -95,7 +100,7 @@ const main_menu = async () => {
     '16. Emulation.setDeviceMetricsOverride',
     '17. Emulation.setGeolocationOverride',
     '18. Exit',
-    fs.readdirSync('./requests').map((file, ix) => `${ix + 18 + 1}. ${file}`).join('\n')
+    ...requests.map(({ method, params = {} }, ix) => `r${ix}. ${method}(${Object.keys(params).map((p) => `${p}=${params[p]}`).join(', ')})`)
   ].join('\n'))
 
   switch (answer) {
@@ -117,7 +122,7 @@ const main_menu = async () => {
     case '16': return emulation_setdevicemetricsoverride_menu()
     case '17': return emulation_setgeolocationoverride_menu()
     case '18': return rl.close()
-    default: return run_file(+answer - 18 - 1)
+    default: return run_request(+answer.replace('r', '').toString())
   }
   return answer
 }
