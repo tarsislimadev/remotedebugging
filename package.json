@@ -1,6 +1,6 @@
 {
-  "name": "chromeremotedebugging-weblate-argostranslate",
-  "version": "1.0.0",
+  "name": "remotedebugging",
+  "version": "0.1.0",
   "description": "Translate using Chromium Remote Debugging and Argos AI model",
   "main": "index.js",
   "scripts": {
@@ -9,16 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tarsislimadev/chromeremotedebugging-weblate-argostranslate.git"
+    "url": "git+https://github.com/tarsislimadev/remotedebugging.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/tarsislimadev/chromeremotedebugging-weblate-argostranslate/issues"
+    "url": "https://github.com/tarsislimadev/remotedebugging/issues"
   },
-  "homepage": "https://github.com/tarsislimadev/chromeremotedebugging-weblate-argostranslate#readme",
+  "homepage": "https://github.com/tarsislimadev/remotedebugging#readme",
   "dependencies": {
     "express": "^5.2.1",
     "socket.io": "^4.8.3"
