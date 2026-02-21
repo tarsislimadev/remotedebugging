@@ -1,5 +1,4 @@
 const menu = [
-  [],
   [
     'Page.navigate',
     async ({ req, question } = {}) => {
@@ -40,44 +39,79 @@ const menu = [
       ws.send({ 'method': 'DOM.getDocument', 'params': {} })
     }
   ],
-  // ['DOM.querySelector', async ({ } = {}) => { }],
-  // ['DOM.setAttributeValue', async ({ } = {}) => { }],
   [
-    'Network.enable',
+    'Exit',
     async ({ ws } = {}) => {
-      ws.send({ 'method': 'Network.enable', 'params': {} })
+      ws.close()
     }
-  ],
-  [
-    'Network.setExtraHTTPHeaders',
-    async ({ req, question } = {}) => {
-      const answer = await question('headers.Authorization:')
-      req.push({ 'method': 'Network.setExtraHTTPHeaders', 'params': { 'headers': { 'Authorization': answer } } })
-    }
-  ],
-  // ['Network.getResponseBody', async ({ } = {}) => { }],
-  [
-    'Debugger.enable',
-    async ({ ws } = {}) => {
-      ws.send({ 'method': 'Debugger.enable', 'params': {} })
-    }
-  ],
-  // ['Debugger.setBreakpointByUrl', async ({ } = {}) => { }],
-  [
-    'Debugger.resume',
-    async ({ ws } = {}) => {
-      ws.send({ 'method': 'Debugger.resume', 'params': {} })
-    }
-  ],
-  [
-    'Console.enable',
-    async ({ ws } = {}) => {
-      ws.send({ 'method': 'Console.enable', 'params': {} })
-    }
-  ],
-  // ['Emulation.setDeviceMetricsOverride', async ({ } = {}) => { }],
-  // ['Emulation.setGeolocationOverride', async ({ } = {}) => { }],
-  ['Exit', async ({ ws } = {}) => ws.close()],
-];
+  ]
+]
 
-module.exports = { menu };
+module.exports = { menu }
+
+// ['Page.addScriptToEvaluateOnNewDocument', async () => {}],
+// ['Page.bringToFront', async () => {}],
+// ['Page.close', async () => {}],
+// ['Page.createIsolatedWorld', async () => {}],
+// ['Page.disable', async () => {}],
+// ['Page.enable', async () => {}],
+// ['Page.getAppManifest', async () => {}],
+// ['Page.getFrameTree', async () => {}],
+// ['Page.getLayoutMetrics', async () => {}],
+// ['Page.getNavigationHistory', async () => {}],
+// ['Page.handleJavaScriptDialog', async () => {}],
+// ['Page.navigateToHistoryEntry', async () => {}],
+// ['Page.printToPDF', async () => {}],
+// ['Page.removeScriptToEvaluateOnNewDocument', async () => {}],
+// ['Page.resetNavigationHistory', async () => {}],
+// ['Page.setBypassCSP', async () => {}],
+// ['Page.setDocumentContent', async () => {}],
+// ['Page.setInterceptFileChooserDialog', async () => {}],
+// ['Page.setLifecycleEventsEnabled', async () => {}],
+// ['Page.stopLoading', async () => {}],
+
+// ['Runtime.addBinding', async () => {}],
+// ['Runtime.awaitPromise', async () => {}],
+// ['Runtime.callFunctionOn', async () => {}],
+// ['Runtime.compileScript', async () => {}],
+// ['Runtime.disable', async () => {}],
+// ['Runtime.discardConsoleEntries', async () => {}],
+// ['Runtime.enable', async () => {}],
+// ['Runtime.evaluate', async () => {}],
+// ['Runtime.getProperties', async () => {}],
+// ['Runtime.globalLexicalScopeNames', async () => {}],
+// ['Runtime.queryObjects', async () => {}],
+// ['Runtime.releaseObject', async () => {}],
+// ['Runtime.releaseObjectGroup', async () => {}],
+// ['Runtime.removeBinding', async () => {}],
+// ['Runtime.runIfWaitingForDebugger', async () => {}],
+// ['Runtime.runScript', async () => {}],
+// ['Runtime.setAsyncCallStackDepth', async () => {}],
+
+// ['DOM.describeNode', async () => {}],
+// ['DOM.disable', async () => {}],
+// ['DOM.enable', async () => {}],
+// ['DOM.focus', async () => {}],
+// ['DOM.getAttributes', async () => {}],
+// ['DOM.getBoxModel', async () => {}],
+// ['DOM.getDocument', async () => {}],
+// ['DOM.getNodeForLocation', async () => {}],
+// ['DOM.getOuterHTML', async () => {}],
+// ['DOM.hideHighlight', async () => {}],
+// ['DOM.highlightNode', async () => {}],
+// ['DOM.highlightRect', async () => {}],
+// ['DOM.moveTo', async () => {}],
+// ['DOM.querySelector', async () => {}],
+// ['DOM.querySelectorAll', async () => {}],
+// ['DOM.removeAttribute', async () => {}],
+// ['DOM.removeNode', async () => {}],
+// ['DOM.requestChildNodes', async () => {}],
+// ['DOM.requestNode', async () => {}],
+// ['DOM.resolveNode', async () => {}],
+// ['DOM.scrollIntoViewIfNeeded', async () => {}],
+// ['DOM.setAttributesAsText', async () => {}],
+// ['DOM.setAttributeValue', async () => {}],
+// ['DOM.setFileInputFiles', async () => {}],
+// ['DOM.setNodeName', async () => {}],
+// ['DOM.setNodeValue', async () => {}],
+// ['DOM.setOuterHTML', async () => {}],
