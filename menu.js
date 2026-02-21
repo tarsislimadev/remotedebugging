@@ -2,29 +2,33 @@ const menu = [
   [],
   [
     'Page.navigate',
-    async ({ ws, req, question } = {}) => {
+    async ({ req, question } = {}) => {
       const answer = await question('Enter URL to navigate to:');
       req.push({ method: 'Page.navigate', params: { url: answer } });
     }
   ],
   [
     'Page.reload',
-    async ({ ws, req, question } = {}) => ws.send({ 'method': 'Page.reload', 'params': { 'ignoreCache': true } })
+    async ({ ws } = {}) => {
+      ws.send({ 'method': 'Page.reload', 'params': { 'ignoreCache': true } })
+    }
   ],
   [
     'Page.captureScreenshot',
-    async ({ ws, req, question } = {}) => ws.send({ 'method': 'Page.captureScreenshot', 'params': { 'format': 'png' } })
+    async ({ ws } = {}) => {
+      ws.send({ 'method': 'Page.captureScreenshot', 'params': { 'format': 'png' } })
+    }
   ],
   [
     'Runtime.evaluate',
-    async ({ ws, req, question } = {}) => {
+    async ({ req, question } = {}) => {
       const answer = await question('Enter expression to evaluate:');
       req.push({ 'method': 'Runtime.evaluate', 'params': { 'expression': answer } })
     }
   ],
   [
     'Runtime.callFunctionOn',
-    async ({ ws, req, question } = {}) => {
+    async ({ req, question } = {}) => {
       const objectId = await question('objectId:');
       const functionDeclaration = await question('functionDeclaration:');
       req.push({ 'method': 'Runtime.callFunctionOn', 'params': { objectId, functionDeclaration } })
@@ -32,56 +36,48 @@ const menu = [
   ],
   [
     'DOM.getDocument',
-    async ({ ws, req, question } = {}) => { }
+    async ({ ws } = {}) => {
+      ws.send({ 'method': 'DOM.getDocument', 'params': {} })
+    }
   ],
-  [
-    'DOM.querySelector',
-    async ({ ws, req, question } = {}) => { }
-  ],
-  [
-    'DOM.setAttributeValue',
-    async ({ ws, req, question } = {}) => { }
-  ],
+  // ['DOM.querySelector', async ({ } = {}) => { }],
+  // ['DOM.setAttributeValue', async ({ } = {}) => { }],
   [
     'Network.enable',
-    async ({ ws, req, question } = {}) => { }
+    async ({ ws } = {}) => {
+      ws.send({ 'method': 'Network.enable', 'params': {} })
+    }
   ],
   [
     'Network.setExtraHTTPHeaders',
-    async ({ ws, req, question } = {}) => { }
+    async ({ req, question } = {}) => {
+      const answer = await question('headers.Authorization:')
+      req.push({ 'method': 'Network.setExtraHTTPHeaders', 'params': { 'headers': { 'Authorization': answer } } })
+    }
   ],
-  [
-    'Network.getResponseBody',
-    async ({ ws, req, question } = {}) => { }
-  ],
+  // ['Network.getResponseBody', async ({ } = {}) => { }],
   [
     'Debugger.enable',
-    async ({ ws, req, question } = {}) => { }
+    async ({ ws } = {}) => {
+      ws.send({ 'method': 'Debugger.enable', 'params': {} })
+    }
   ],
-  [
-    'Debugger.setBreakpointByUrl',
-    async ({ ws, req, question } = {}) => { }
-  ],
+  // ['Debugger.setBreakpointByUrl', async ({ } = {}) => { }],
   [
     'Debugger.resume',
-    async ({ ws, req, question } = {}) => { }
+    async ({ ws } = {}) => {
+      ws.send({ 'method': 'Debugger.resume', 'params': {} })
+    }
   ],
   [
     'Console.enable',
-    async ({ ws, req, question } = {}) => { }
+    async ({ ws } = {}) => {
+      ws.send({ 'method': 'Console.enable', 'params': {} })
+    }
   ],
-  [
-    'Emulation.setDeviceMetricsOverride',
-    async ({ ws, req, question } = {}) => { }
-  ],
-  [
-    'Emulation.setGeolocationOverride',
-    async ({ ws, req, question } = {}) => { }
-  ],
-  [
-    'Exit',
-    async ({ ws, req, question } = {}) => ws.close()
-  ],
+  // ['Emulation.setDeviceMetricsOverride', async ({ } = {}) => { }],
+  // ['Emulation.setGeolocationOverride', async ({ } = {}) => { }],
+  ['Exit', async ({ ws } = {}) => ws.close()],
 ];
 
 module.exports = { menu };
