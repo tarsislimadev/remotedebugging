@@ -7,6 +7,10 @@ const requests = []
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 
+rl.addListener('close', () => process.exit(0))
+
+rl.addListener('SIGTSTP', () => process.exit(0))
+
 const question = (query) => new Promise((resolve) => rl.question(`${query}\n> `, resolve))
 
 const getWebSocketURL = async () => {
@@ -46,7 +50,7 @@ const main_menu = async () => {
     ...requests.map(({ method, params = {} }, ix) => `r${ix}. ${method}(${Object.keys(params).map((p) => `${p}=${params[p]}`).join(', ')})`)
   ].join('\n'))
 
-  if (menu[answer]) return menu[answer][1]?.({ req: requests, ws: { send: ws_send }, close: () => rl.close(), question })
+  if (menu[answer]) return menu[answer][1]?.({ req: requests, ws: { send: ws_send, close: () => rl.close() }, question })
   return run_request(+answer.replace('r', '').toString())
 }
 
