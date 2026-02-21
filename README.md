@@ -23,3 +23,7 @@ node ./app.js
 ## How it works
 
 The app show available methods. The user chooses methods and fill params for saving JSON files with data. The user may choose JSON file for requesting current WebScoket connection.
+
+## See more
+
+[chrome-devtools-protocol](https://chromedevtools.github.io/devtools-protocol/tot/Page/)
