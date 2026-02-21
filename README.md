@@ -2,28 +2,22 @@
 
 Translate using Chromium Remote Debugging and Argos AI model 
 
-## Install Chromium
+## Install Node.js dependencies
 
 ```bash
-npx @puppeteer/browsers install chrome@stable
+npm ci
 ```
 
 ## Run Chromium Remote Debugging
 
 ```bash
-.\chrome\win64-145.0.7632.76\chrome-win64\chrome.exe --remote-debugging-port=9222
+.\chrome\win64-145.0.7632.77\chrome-win64\chrome.exe --remote-debugging-port=9222
 ```
 
-## Get WebSocket Debugger Url
+## Run app
 
 ```bash
-curl "http://localhost:9222/json" | jq '.[].webSocketDebuggerUrl'
-```
-
-## Connect using WebSocket
-
-```bash
-npx wsc "ws://localhost:9222/devtools/page/FCE111F111BEFF1111CFADD11A1E1111"
+node ./app.js
 ```
 
 ## How it works
