@@ -46,7 +46,7 @@ const run_request = async (index) => ws_send(requests[index])
 const main_menu = async () => {
   const answer = await question([
     'Select a method: ',
-    ...menu.map(([name], ix) => `${ix}. ${name}`).slice(1),
+    ...menu.map(([name], ix) => `${ix}. ${name}`),
     ...requests.map(({ method, params = {} }, ix) => `r${ix}. ${method}(${Object.keys(params).map((p) => `${p}=${params[p]}`).join(', ')})`)
   ].join('\n'))
 
