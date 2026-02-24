@@ -11,7 +11,7 @@ npm ci
 ## Run Chromium Remote Debugging
 
 ```bash
-.\chrome\win64-145.0.7632.77\chrome-win64\chrome.exe --remote-debugging-port=9222
+.\chrome\win64-145.0.7632.117\chrome-win64\chrome.exe --remote-debugging-port=9222
 ```
 
 ## Run app
