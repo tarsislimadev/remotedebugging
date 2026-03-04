@@ -2,9 +2,9 @@
   "name": "remotedebugging",
   "version": "0.1.0",
   "description": "Translate using Chromium Remote Debugging and Argos AI model",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node app.js",
     "install": "npx @puppeteer/browsers install chrome@stable"
   },
   "repository": {
