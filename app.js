@@ -19,17 +19,39 @@ const getWebSocketURL = async () => {
   return json.find((item) => item.url === 'chrome://newtab/')?.webSocketDebuggerUrl
 }
 
-const createFilename = (name) => path.join('.', 'responses', `${name}.${Date.now().toFixed(0)}.json`)
+const createFilename = (name, ext = 'json') => path.join('.', 'responses', `${name}.${Date.now().toFixed(0)}.${ext}`)
 
 const saveJsonResponse = (name, data = {}) => fs.writeFileSync(createFilename(name), JSON.stringify(data))
+
+const onOpen = () => {
+  console.log('WebSocket connection opened')
+}
+
+const writePngFile = (data) => {
+  fs.writeFileSync(createFilename('screenshot', 'png'), Buffer.from(data, 'base64'))
+}
+
+const onMessage = (event) => {
+  const { data } = event
+  saveJsonResponse('response', JSON.parse(data))
+  writePngFile(data.result.data)
+}
+
+const onClose = () => {
+  rl.close()
+}
+
+const onError = (error) => {
+  console.error('WebSocket error:', error)
+}
 
 const createWebSocket = async () => {
   const url = await getWebSocketURL()
   const ws = new WebSocket(url)
-  ws.addEventListener('open', () => console.log('WebSocket connection opened'))
-  ws.addEventListener('message', (event) => saveJsonResponse('response', JSON.parse(event.data)))
-  ws.addEventListener('close', () => rl.close())
-  ws.addEventListener('error', (error) => console.error('WebSocket error:', error))
+  ws.addEventListener('open', onOpen)
+  ws.addEventListener('message', onMessage)
+  ws.addEventListener('close', onClose)
+  ws.addEventListener('error', onError)
   return ws
 }
 
@@ -39,7 +61,13 @@ createWebSocket().then((ws) => state.ws = ws);
 
 const getCounter = () => ++state.counter
 
-const ws_send = (req = {}) => { if (req) state.ws.send(JSON.stringify({ id: getCounter(), ...req })) }
+const ws_send = (req = {}) => {
+  if (req) {
+    const data = { id: getCounter(), ...req }
+    state.ws.send(JSON.stringify(data))
+    saveJsonResponse('request', data)
+  }
+}
 
 const run_request = async (index) => ws_send(requests[index])
 
