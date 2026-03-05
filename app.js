@@ -32,9 +32,7 @@ const writePngFile = (data) => {
 }
 
 const onMessage = (event) => {
-  const { data } = event
-  saveJsonResponse('response', JSON.parse(data))
-  if (data.result.data) writePngFile(data.result.data)
+  saveJsonResponse('response', JSON.parse(event.data))
 }
 
 const onClose = () => {
