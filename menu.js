@@ -1,3 +1,5 @@
+// docs: https://chromedevtools.github.io/devtools-protocol/
+
 const menu = [
   [
     'Page.navigate',
@@ -100,10 +102,314 @@ const menu = [
       req.push({ 'method': 'Runtime.callFunctionOn', 'params': { objectId, functionDeclaration } })
     }
   ],
+  ['Runtime.addBinding', async ({ ws }) => ws.send({ 'method': 'Runtime.addBinding', 'params': {} })],
+  [
+    'Runtime.awaitPromise',
+    async ({ req, question }) => {
+      const promiseObjectId = await question('Promise Object Id:')
+      const returnByValue = await question('Return By Value:')
+      req.push({ 'method': 'Runtime.awaitPromise', 'params': { promiseObjectId, returnByValue } })
+    }
+  ],
+  [
+    'Runtime.callFunctionOn',
+    async ({ req, question }) => {
+      const functionDeclaration = await question('Function Declaration:')
+      const objectId = await question('Object Id:')
+      const args = await question('Arguments:')
+      const returnByValue = await question('Return By Value:')
+      req.push({ 'method': 'Runtime.callFunctionOn', 'params': { functionDeclaration, objectId, arguments: args, returnByValue } })
+    }
+  ],
+  [
+    'Runtime.compileScript',
+    async ({ req, question }) => {
+      const expression = await question('Expression:')
+      const sourceURL = await question('Source URL:')
+      const persistScript = await question('Persist Script (0/1):')
+      req.push({ 'method': 'Runtime.compileScript', 'params': { expression, sourceURL, persistScript } })
+    }
+  ],
+  [
+    'Runtime.disable',
+    async ({ ws }) => ws.send({ 'method': 'Runtime.disable', 'params': {} })
+  ],
+  [
+    'Runtime.discardConsoleEntries',
+    async ({ ws }) => ws.send({ 'method': 'Runtime.discardConsoleEntries', 'params': {} })
+  ],
+  [
+    'Runtime.enable',
+    async ({ ws }) => ws.send({ 'method': 'Runtime.enable', 'params': {} })
+  ],
+  [
+    'Runtime.evaluate',
+    async ({ req, question }) => {
+      const expression = await question('Expression:')
+      const returnByValue = await question('Return By Value:')
+      req.push({ 'method': 'Runtime.evaluate', 'params': { expression, returnByValue } })
+    }
+  ],
+  [
+    'Runtime.getProperties',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      const ownProperties = await question('Own Properties:')
+      req.push({ 'method': 'Runtime.getProperties', 'params': { objectId, ownProperties } })
+    }
+  ],
+  [
+    'Runtime.globalLexicalScopeNames',
+    async ({ req, question }) => {
+      req.push({ 'method': 'Runtime.globalLexicalScopeNames', 'params': {} })
+    }
+  ],
+  [
+    'Runtime.queryObjects',
+    async ({ req, question }) => {
+      const prototypeObjectId = await question('Prototype Object Id:')
+      req.push({ 'method': 'Runtime.queryObjects', 'params': { prototypeObjectId } })
+    }
+  ],
+  [
+    'Runtime.releaseObject',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'Runtime.releaseObject', 'params': { objectId } })
+    }
+  ],
+  [
+    'Runtime.releaseObjectGroup',
+    async ({ req, question }) => {
+      const objectGroup = await question('Object Group:')
+      req.push({ 'method': 'Runtime.releaseObjectGroup', 'params': { objectGroup } })
+    }
+  ],
+  [
+    'Runtime.removeBinding',
+    async ({ req, question }) => {
+      const name = await question('Name:')
+      req.push({ 'method': 'Runtime.removeBinding', 'params': { name } })
+    }
+  ],
+  [
+    'Runtime.runIfWaitingForDebugger',
+    async ({ ws }) => ws.send({ 'method': 'Runtime.runIfWaitingForDebugger', 'params': {} })
+  ],
+  [
+    'Runtime.runScript',
+    async ({ req, question }) => {
+      const scriptId = await question('Script Id:')
+      const executionContextId = await question('Execution Context Id:')
+      const awaitPromise = await question('Await Promise:')
+      req.push({ 'method': 'Runtime.runScript', 'params': { scriptId, executionContextId, awaitPromise } })
+    }
+  ],
+  [
+    'Runtime.setAsyncCallStackDepth',
+    async ({ req, question }) => {
+      const depth = await question('Depth:')
+      req.push({ 'method': 'Runtime.setAsyncCallStackDepth', 'params': { depth } })
+    }
+  ],
   [
     'DOM.getDocument',
     async ({ ws } = {}) => {
       ws.send({ 'method': 'DOM.getDocument', 'params': {} })
+    }
+  ],
+  [
+    'DOM.describeNode',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'DOM.describeNode', 'params': { objectId } })
+    }
+  ],
+  [
+    'DOM.disable',
+    async ({ ws }) => ws.send({ 'method': 'DOM.disable', 'params': {} })
+  ],
+  [
+    'DOM.enable',
+    async ({ ws }) => ws.send({ 'method': 'DOM.enable', 'params': {} })
+  ],
+  [
+    'DOM.focus',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'DOM.focus', 'params': { objectId } })
+    }
+  ],
+  [
+    'DOM.getAttributes',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'DOM.getAttributes', 'params': { objectId } })
+    }
+  ],
+  [
+    'DOM.getBoxModel',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'DOM.getBoxModel', 'params': { objectId } })
+    }
+  ],
+  [
+    'DOM.getDocument',
+    async ({ ws }) => ws.send({ 'method': 'DOM.getDocument', 'params': {} })
+  ],
+  [
+    'DOM.getNodeForLocation',
+    async ({ req, question }) => {
+      const x = await question('x:')
+      const y = await question('y:')
+      req.push({ 'method': 'DOM.getNodeForLocation', 'params': { x, y } })
+    }
+  ],
+  [
+    'DOM.getOuterHTML',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'DOM.getOuterHTML', 'params': { objectId } })
+    }
+  ],
+  [
+    'DOM.hideHighlight',
+    async ({ ws }) => ws.send({ 'method': 'DOM.hideHighlight', 'params': {} })
+  ],
+  [
+    'DOM.highlightNode',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'DOM.highlightNode', 'params': { objectId } })
+    }
+  ],
+  [
+    'DOM.highlightRect',
+    async ({ req, question }) => {
+      const x = await question('x:')
+      const y = await question('y:')
+      const width = await question('width:')
+      const height = await question('height:')
+      req.push({ 'method': 'DOM.highlightRect', 'params': { x, y, width, height } })
+    }
+  ],
+  [
+    'DOM.moveTo',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      const x = await question('x:')
+      const y = await question('y:')
+      req.push({ 'method': 'DOM.moveTo', 'params': { objectId, x, y } })
+    }
+  ],
+  [
+    'DOM.querySelector',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      const selector = await question('Selector:')
+      req.push({ 'method': 'DOM.querySelector', 'params': { objectId, selector } })
+    }
+  ],
+  [
+    'DOM.querySelectorAll',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      const selector = await question('Selector:')
+      req.push({ 'method': 'DOM.querySelectorAll', 'params': { objectId, selector } })
+    }
+  ],
+  [
+    'DOM.removeAttribute',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      const name = await question('Name:')
+      req.push({ 'method': 'DOM.removeAttribute', 'params': { objectId, name } })
+    }
+  ],
+  [
+    'DOM.removeNode',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'DOM.removeNode', 'params': { objectId } })
+    }
+  ],
+  [
+    'DOM.requestChildNodes',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      const depth = await question('Depth:')
+      req.push({ 'method': 'DOM.requestChildNodes', 'params': { objectId, depth } })
+    }
+  ],
+  [
+    'DOM.requestNode',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'DOM.requestNode', 'params': { objectId } })
+    }
+  ],
+  [
+    'DOM.resolveNode',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'DOM.resolveNode', 'params': { objectId } })
+    }
+  ],
+  [
+    'DOM.scrollIntoViewIfNeeded',
+    async ({ req, question }) => {
+      const objectId = await question('Object Id:')
+      req.push({ 'method': 'DOM.scrollIntoViewIfNeeded', 'params': { objectId } })
+    }
+  ],
+  [
+    'DOM.setAttributesAsText',
+    async ({ req, question }) => {
+      const nodeId = await question('Node Id:')
+      const text = await question('Text:')
+      req.push({ 'method': 'DOM.setAttributesAsText', 'params': { nodeId, text } })
+    }
+  ],
+  [
+    'DOM.setAttributeValue',
+    async ({ req, question }) => {
+      const nodeId = await question('Node Id:')
+      const name = await question('Name:')
+      const value = await question('Value:')
+      req.push({ 'method': 'DOM.setAttributeValue', 'params': { nodeId, name, value } })
+    }
+  ],
+  [
+    'DOM.setFileInputFiles',
+    async ({ req, question }) => {
+      const nodeId = await question('Node Id:')
+      const files = await question('Files:')
+      req.push({ 'method': 'DOM.setFileInputFiles', 'params': { nodeId, files } })
+    }
+  ],
+  [
+    'DOM.setNodeName',
+    async ({ req, question }) => {
+      const nodeId = await question('Node Id:')
+      const name = await question('Name:')
+      req.push({ 'method': 'DOM.setNodeName', 'params': { nodeId, name } })
+    }
+  ],
+  [
+    'DOM.setNodeValue',
+    async ({ req, question }) => {
+      const nodeId = await question('Node Id:')
+      const value = await question('Value:')
+      req.push({ 'method': 'DOM.setNodeValue', 'params': { nodeId, value } })
+    }
+  ],
+  [
+    'DOM.setOuterHTML',
+    async ({ req, question }) => {
+      const nodeId = await question('Node Id:')
+      const outerHTML = await question('Outer HTML:')
+      req.push({ 'method': 'DOM.setOuterHTML', 'params': { nodeId, outerHTML } })
     }
   ],
   [
@@ -115,49 +421,3 @@ const menu = [
 ]
 
 module.exports = { menu }
-
-// ['Runtime.addBinding', async () => {}],
-// ['Runtime.awaitPromise', async () => {}],
-// ['Runtime.callFunctionOn', async () => {}],
-// ['Runtime.compileScript', async () => {}],
-// ['Runtime.disable', async () => {}],
-// ['Runtime.discardConsoleEntries', async () => {}],
-// ['Runtime.enable', async () => {}],
-// ['Runtime.evaluate', async () => {}],
-// ['Runtime.getProperties', async () => {}],
-// ['Runtime.globalLexicalScopeNames', async () => {}],
-// ['Runtime.queryObjects', async () => {}],
-// ['Runtime.releaseObject', async () => {}],
-// ['Runtime.releaseObjectGroup', async () => {}],
-// ['Runtime.removeBinding', async () => {}],
-// ['Runtime.runIfWaitingForDebugger', async () => {}],
-// ['Runtime.runScript', async () => {}],
-// ['Runtime.setAsyncCallStackDepth', async () => {}],
-
-// ['DOM.describeNode', async () => {}],
-// ['DOM.disable', async () => {}],
-// ['DOM.enable', async () => {}],
-// ['DOM.focus', async () => {}],
-// ['DOM.getAttributes', async () => {}],
-// ['DOM.getBoxModel', async () => {}],
-// ['DOM.getDocument', async () => {}],
-// ['DOM.getNodeForLocation', async () => {}],
-// ['DOM.getOuterHTML', async () => {}],
-// ['DOM.hideHighlight', async () => {}],
-// ['DOM.highlightNode', async () => {}],
-// ['DOM.highlightRect', async () => {}],
-// ['DOM.moveTo', async () => {}],
-// ['DOM.querySelector', async () => {}],
-// ['DOM.querySelectorAll', async () => {}],
-// ['DOM.removeAttribute', async () => {}],
-// ['DOM.removeNode', async () => {}],
-// ['DOM.requestChildNodes', async () => {}],
-// ['DOM.requestNode', async () => {}],
-// ['DOM.resolveNode', async () => {}],
-// ['DOM.scrollIntoViewIfNeeded', async () => {}],
-// ['DOM.setAttributesAsText', async () => {}],
-// ['DOM.setAttributeValue', async () => {}],
-// ['DOM.setFileInputFiles', async () => {}],
-// ['DOM.setNodeName', async () => {}],
-// ['DOM.setNodeValue', async () => {}],
-// ['DOM.setOuterHTML', async () => {}],
