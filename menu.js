@@ -3,21 +3,34 @@
 const menu = [
   [
     'Page.navigate',
-    async ({ req, question } = {}) => {
-      const answer = await question('Enter URL to navigate to:');
-      req.push({ 'method': 'Page.navigate', params: { url: answer } });
+    async ({ req, question, vars } = {}) => {
+      const { url } = await vars([
+        ['url', 'type=string', 'question=Enter URL to navigate to'],
+      ])
+      req.push({ 'method': 'Page.navigate', params: { url } });
     }
   ],
-  ['Page.reload', async ({ ws } = {}) => ws.send({ 'method': 'Page.reload', 'params': { 'ignoreCache': true } })],
-  ['Page.captureScreenshot', async ({ ws } = {}) => ws.send({ 'method': 'Page.captureScreenshot', 'params': { 'format': 'png' } })],
+  [
+    'Page.reload',
+    async ({ ws } = {}) => ws.send({ 'method': 'Page.reload', 'params': { 'ignoreCache': true } })
+  ],
+  [
+    'Page.captureScreenshot',
+    async ({ ws } = {}) => ws.send({ 'method': 'Page.captureScreenshot', 'params': { 'format': 'png' } })
+  ],
   [
     'Page.addScriptToEvaluateOnNewDocument',
-    async ({ req, question } = {}) => {
-      const source = await question('Source:');
+    async ({ req, question, vars } = {}) => {
+      const { source } = await vars([
+        ['source', 'type=string', 'question=Source']
+      ])
       req.push({ 'method': 'Page.addScriptToEvaluateOnNewDocument', params: { source } });
     }
   ],
-  ['Page.bringToFront', async ({ ws }) => ws.send({ 'method': 'Page.bringToFront' })],
+  [
+    'Page.bringToFront',
+    async ({ ws }) => ws.send({ 'method': 'Page.bringToFront' })
+  ],
   [
     'Page.getAppManifest',
     async ({ ws, question }) => {
@@ -25,9 +38,18 @@ const menu = [
       ws.send({ 'method': 'Page.getAppManifest', params: { manifestId } })
     }
   ],
-  ['Page.getFrameTree', async ({ ws }) => ws.send({ 'method': 'Page.getFrameTree' })],
-  ['Page.getLayoutMetrics', async ({ ws }) => ws.send({ 'method': 'Page.getLayoutMetrics' })],
-  ['Page.getNavigationHistory', async ({ ws }) => ws.send({ 'method': 'Page.getNavigationHistory' })],
+  [
+    'Page.getFrameTree',
+    async ({ ws }) => ws.send({ 'method': 'Page.getFrameTree' })
+  ],
+  [
+    'Page.getLayoutMetrics',
+    async ({ ws }) => ws.send({ 'method': 'Page.getLayoutMetrics' })
+  ],
+  [
+    'Page.getNavigationHistory',
+    async ({ ws }) => ws.send({ 'method': 'Page.getNavigationHistory' })
+  ],
   [
     'Page.handleJavaScriptDialog',
     async ({ ws, question }) => {
@@ -221,8 +243,8 @@ const menu = [
   [
     'DOM.describeNode',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
-      req.push({ 'method': 'DOM.describeNode', 'params': { objectId } })
+      const nodeId = await question('Node Id:')
+      req.push({ 'method': 'DOM.describeNode', 'params': { nodeId } })
     }
   ],
   [
@@ -236,22 +258,22 @@ const menu = [
   [
     'DOM.focus',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
-      req.push({ 'method': 'DOM.focus', 'params': { objectId } })
+      const nodeId = await question('Node Id:')
+      req.push({ 'method': 'DOM.focus', 'params': { nodeId } })
     }
   ],
   [
     'DOM.getAttributes',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
-      req.push({ 'method': 'DOM.getAttributes', 'params': { objectId } })
+      const nodeId = await question('Node Id:')
+      req.push({ 'method': 'DOM.getAttributes', 'params': { nodeId } })
     }
   ],
   [
     'DOM.getBoxModel',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
-      req.push({ 'method': 'DOM.getBoxModel', 'params': { objectId } })
+      const nodeId = await question('Node Id:')
+      req.push({ 'method': 'DOM.getBoxModel', 'params': { nodeId } })
     }
   ],
   [
@@ -269,8 +291,8 @@ const menu = [
   [
     'DOM.getOuterHTML',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
-      req.push({ 'method': 'DOM.getOuterHTML', 'params': { objectId } })
+      const nodeId = await question('Node Id:')
+      req.push({ 'method': 'DOM.getOuterHTML', 'params': { nodeId } })
     }
   ],
   [
@@ -280,8 +302,8 @@ const menu = [
   [
     'DOM.highlightNode',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
-      req.push({ 'method': 'DOM.highlightNode', 'params': { objectId } })
+      const nodeId = await question('Node Id:')
+      req.push({ 'method': 'DOM.highlightNode', 'params': { nodeId } })
     }
   ],
   [
@@ -297,70 +319,70 @@ const menu = [
   [
     'DOM.moveTo',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
+      const nodeId = await question('Node Id:')
       const x = await question('x:')
       const y = await question('y:')
-      req.push({ 'method': 'DOM.moveTo', 'params': { objectId, x, y } })
+      req.push({ 'method': 'DOM.moveTo', 'params': { nodeId, x, y } })
     }
   ],
   [
     'DOM.querySelector',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
+      const nodeId = await question('Node Id:')
       const selector = await question('Selector:')
-      req.push({ 'method': 'DOM.querySelector', 'params': { objectId, selector } })
+      req.push({ 'method': 'DOM.querySelector', 'params': { nodeId, selector } })
     }
   ],
   [
     'DOM.querySelectorAll',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
+      const nodeId = await question('Node Id:')
       const selector = await question('Selector:')
-      req.push({ 'method': 'DOM.querySelectorAll', 'params': { objectId, selector } })
+      req.push({ 'method': 'DOM.querySelectorAll', 'params': { nodeId, selector } })
     }
   ],
   [
     'DOM.removeAttribute',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
+      const nodeId = await question('Node Id:')
       const name = await question('Name:')
-      req.push({ 'method': 'DOM.removeAttribute', 'params': { objectId, name } })
+      req.push({ 'method': 'DOM.removeAttribute', 'params': { nodeId, name } })
     }
   ],
   [
     'DOM.removeNode',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
-      req.push({ 'method': 'DOM.removeNode', 'params': { objectId } })
+      const nodeId = await question('Node Id:')
+      req.push({ 'method': 'DOM.removeNode', 'params': { nodeId } })
     }
   ],
   [
     'DOM.requestChildNodes',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
+      const nodeId = await question('Node Id:')
       const depth = await question('Depth:')
-      req.push({ 'method': 'DOM.requestChildNodes', 'params': { objectId, depth } })
+      req.push({ 'method': 'DOM.requestChildNodes', 'params': { nodeId, depth } })
     }
   ],
   [
     'DOM.requestNode',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
-      req.push({ 'method': 'DOM.requestNode', 'params': { objectId } })
+      const nodeId = await question('Node Id:')
+      req.push({ 'method': 'DOM.requestNode', 'params': { nodeId } })
     }
   ],
   [
     'DOM.resolveNode',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
-      req.push({ 'method': 'DOM.resolveNode', 'params': { objectId } })
+      const nodeId = await question('Node Id:')
+      req.push({ 'method': 'DOM.resolveNode', 'params': { nodeId } })
     }
   ],
   [
     'DOM.scrollIntoViewIfNeeded',
     async ({ req, question }) => {
-      const objectId = await question('Object Id:')
-      req.push({ 'method': 'DOM.scrollIntoViewIfNeeded', 'params': { objectId } })
+      const nodeId = await question('Node Id:')
+      req.push({ 'method': 'DOM.scrollIntoViewIfNeeded', 'params': { nodeId } })
     }
   ],
   [
