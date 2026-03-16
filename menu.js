@@ -243,7 +243,7 @@ const menu = [
   [
     'DOM.describeNode',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       req.push({ 'method': 'DOM.describeNode', 'params': { nodeId } })
     }
   ],
@@ -258,21 +258,21 @@ const menu = [
   [
     'DOM.focus',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       req.push({ 'method': 'DOM.focus', 'params': { nodeId } })
     }
   ],
   [
     'DOM.getAttributes',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       req.push({ 'method': 'DOM.getAttributes', 'params': { nodeId } })
     }
   ],
   [
     'DOM.getBoxModel',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       req.push({ 'method': 'DOM.getBoxModel', 'params': { nodeId } })
     }
   ],
@@ -283,15 +283,15 @@ const menu = [
   [
     'DOM.getNodeForLocation',
     async ({ req, question }) => {
-      const x = await question('x:')
-      const y = await question('y:')
+      const x = await question('x:', parseInt)
+      const y = await question('y:', parseInt)
       req.push({ 'method': 'DOM.getNodeForLocation', 'params': { x, y } })
     }
   ],
   [
     'DOM.getOuterHTML',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       req.push({ 'method': 'DOM.getOuterHTML', 'params': { nodeId } })
     }
   ],
@@ -302,33 +302,33 @@ const menu = [
   [
     'DOM.highlightNode',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       req.push({ 'method': 'DOM.highlightNode', 'params': { nodeId } })
     }
   ],
   [
     'DOM.highlightRect',
     async ({ req, question }) => {
-      const x = await question('x:')
-      const y = await question('y:')
-      const width = await question('width:')
-      const height = await question('height:')
+      const x = await question('x:', parseInt)
+      const y = await question('y:', parseInt)
+      const width = await question('width:', parseInt)
+      const height = await question('height:', parseInt)
       req.push({ 'method': 'DOM.highlightRect', 'params': { x, y, width, height } })
     }
   ],
   [
     'DOM.moveTo',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
-      const x = await question('x:')
-      const y = await question('y:')
+      const nodeId = await question('Node Id:', parseInt)
+      const x = await question('x:', parseInt)
+      const y = await question('y:', parseInt)
       req.push({ 'method': 'DOM.moveTo', 'params': { nodeId, x, y } })
     }
   ],
   [
     'DOM.querySelector',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       const selector = await question('Selector:')
       req.push({ 'method': 'DOM.querySelector', 'params': { nodeId, selector } })
     }
@@ -336,7 +336,7 @@ const menu = [
   [
     'DOM.querySelectorAll',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       const selector = await question('Selector:')
       req.push({ 'method': 'DOM.querySelectorAll', 'params': { nodeId, selector } })
     }
@@ -344,7 +344,7 @@ const menu = [
   [
     'DOM.removeAttribute',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       const name = await question('Name:')
       req.push({ 'method': 'DOM.removeAttribute', 'params': { nodeId, name } })
     }
@@ -352,43 +352,43 @@ const menu = [
   [
     'DOM.removeNode',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       req.push({ 'method': 'DOM.removeNode', 'params': { nodeId } })
     }
   ],
   [
     'DOM.requestChildNodes',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
-      const depth = await question('Depth:')
+      const nodeId = await question('Node Id:', parseInt)
+      const depth = await question('Depth:', parseInt)
       req.push({ 'method': 'DOM.requestChildNodes', 'params': { nodeId, depth } })
     }
   ],
   [
     'DOM.requestNode',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       req.push({ 'method': 'DOM.requestNode', 'params': { nodeId } })
     }
   ],
   [
     'DOM.resolveNode',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       req.push({ 'method': 'DOM.resolveNode', 'params': { nodeId } })
     }
   ],
   [
     'DOM.scrollIntoViewIfNeeded',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       req.push({ 'method': 'DOM.scrollIntoViewIfNeeded', 'params': { nodeId } })
     }
   ],
   [
     'DOM.setAttributesAsText',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       const text = await question('Text:')
       req.push({ 'method': 'DOM.setAttributesAsText', 'params': { nodeId, text } })
     }
@@ -396,7 +396,7 @@ const menu = [
   [
     'DOM.setAttributeValue',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       const name = await question('Name:')
       const value = await question('Value:')
       req.push({ 'method': 'DOM.setAttributeValue', 'params': { nodeId, name, value } })
@@ -405,7 +405,7 @@ const menu = [
   [
     'DOM.setFileInputFiles',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       const files = await question('Files:')
       req.push({ 'method': 'DOM.setFileInputFiles', 'params': { nodeId, files } })
     }
@@ -413,7 +413,7 @@ const menu = [
   [
     'DOM.setNodeName',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       const name = await question('Name:')
       req.push({ 'method': 'DOM.setNodeName', 'params': { nodeId, name } })
     }
@@ -421,7 +421,7 @@ const menu = [
   [
     'DOM.setNodeValue',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       const value = await question('Value:')
       req.push({ 'method': 'DOM.setNodeValue', 'params': { nodeId, value } })
     }
@@ -429,7 +429,7 @@ const menu = [
   [
     'DOM.setOuterHTML',
     async ({ req, question }) => {
-      const nodeId = await question('Node Id:')
+      const nodeId = await question('Node Id:', parseInt)
       const outerHTML = await question('Outer HTML:')
       req.push({ 'method': 'DOM.setOuterHTML', 'params': { nodeId, outerHTML } })
     }

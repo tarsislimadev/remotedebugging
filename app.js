@@ -39,7 +39,7 @@ rl.addListener('close', () => process.exit(0))
 
 rl.addListener('SIGTSTP', () => process.exit(0))
 
-const question = (query) => new Promise((resolve) => rl.question(`${query}\n > `, resolve))
+const question = (query, parser = (value) => value) => new Promise((resolve) => rl.question(`${query}\n > `, (value) => resolve(parser(value))))
 
 const getWebSocketURL = async () => {
   const data = await fetch('http://localhost:9222/json')
