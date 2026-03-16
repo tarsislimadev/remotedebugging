@@ -109,7 +109,6 @@ const main_menu = async () => {
 
   const vars = async (questions) => {
     return questions.reduce(async (prev, [name, ...props]) => {
-      console.log('questions.reduce', { prev, name, props })
       const query = props.map(p => p.split('=')).reduce((p, c) => ({ ...p, [c[0]]: c[1] }), {})
       return {
         ...prev, [name]: await question(query.question)
