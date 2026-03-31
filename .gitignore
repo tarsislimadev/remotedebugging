@@ -140,3 +140,6 @@ vite.config.ts.timestamp-*
 
 # Chrome Remote Debugging
 chrome/
+
+# 
+responses/
