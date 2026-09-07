@@ -43,7 +43,7 @@ Open a terminal and start Chrome with remote debugging enabled:
 
 **Windows:**
 ```bash
-.\chrome\win64-146.0.7680.80\chrome-win64\chrome.exe --remote-debugging-port=9222
+.\chrome\win64-152.0.7977.82\chrome-win64\chrome.exe --remote-debugging-port=9222
 ```
 
 **Linux/Mac:**
